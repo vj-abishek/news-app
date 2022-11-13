@@ -60,7 +60,7 @@ function News({ data }: any) {
           content,
         });
 
-        const response = await fetch("http://localhost:5000/bookmark", {
+        const response = await fetch(`${process.env.SERVER_URL}/bookmark`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
