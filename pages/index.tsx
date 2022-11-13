@@ -54,7 +54,7 @@ export default function IndexPage({ data, next, nextIndex, activeTopic }: any) {
         const url =
           process.env.NODE_ENV !== "production"
             ? "http://localhost:3000"
-            : process.env.VERCEL_URL;
+            : "https://fingertip-news.vercel.app";
         const response = await fetch(`${url}/api/next`, {
           method: "POST",
           headers: {
@@ -136,8 +136,7 @@ export async function getServerSideProps({ req, res, query }: any) {
     const url =
       process.env.NODE_ENV !== "production"
         ? "http://localhost:3000"
-        : process.env.VERCEL_URL;
-    console.log(url);
+        : "https://fingertip-news.vercel.app";
 
     const encodedUri = encodeURI(`lang=${lang}&topic=${topic}`);
     const response = await fetch(`${url}/api/headlines?${encodedUri}`);
