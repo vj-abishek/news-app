@@ -30,7 +30,6 @@ export default function IndexPage({ data }: any) {
     const filtered = parsed.map((item: any) => JSON.parse(item.CONTENT));
 
     setCurrentData(filtered);
-    console.log(filtered);
   }, [data]);
 
   return data ? (
