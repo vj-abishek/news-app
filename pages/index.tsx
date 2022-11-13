@@ -52,9 +52,10 @@ export default function IndexPage({ data, next, nextIndex, activeTopic }: any) {
         setIsSent(true);
         const ni = parseInt(currentIndex) + 16;
         const url =
-          process.env.NODE_ENV === "development"
+          process.env.NODE_ENV !== "production"
             ? "http://localhost:3000"
             : process.env.VERCEL_URL;
+        console.log(url);
         const response = await fetch(`${url}/api/next`, {
           method: "POST",
           headers: {
