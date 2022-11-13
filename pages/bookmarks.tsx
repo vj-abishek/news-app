@@ -83,7 +83,7 @@ export async function getServerSideProps({ req, res, query }: any) {
   }
 
   try {
-    const response = await fetch("http://localhost:5000/getbookmarks", {
+    const response = await fetch(`${process.env.SERVER_URL}/getbookmarks`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

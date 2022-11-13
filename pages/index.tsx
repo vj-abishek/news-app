@@ -51,7 +51,11 @@ export default function IndexPage({ data, next, nextIndex, activeTopic }: any) {
       if (reachedEnd) {
         setIsSent(true);
         const ni = parseInt(currentIndex) + 16;
-        const response = await fetch("http://localhost:3000/api/next", {
+        const url =
+          process.env.NODE_ENV === "development"
+            ? "http://localhost:3000"
+            : process.env.VERCEL_URL;
+        const response = await fetch(`${url}/api/next`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -129,10 +133,13 @@ export async function getServerSideProps({ req, res, query }: any) {
   );
 
   try {
+    const url =
+      process.env.NODE_ENV === "development"
+        ? "http://localhost:3000"
+        : process.env.VERCEL_URL;
+
     const encodedUri = encodeURI(`lang=${lang}&topic=${topic}`);
-    const response = await fetch(
-      `http://localhost:3000/api/headlines?${encodedUri}`
-    );
+    const response = await fetch(`${url}/api/headlines?${encodedUri}`);
     const { data, next, nextIndex, activeTopic } = await response.json();
 
     return { props: { data, next, nextIndex, activeTopic } };
