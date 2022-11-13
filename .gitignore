@@ -38,4 +38,5 @@ next-env.d.ts
 .env
 
 backend/env
+backend/.env
 backend/__pycache__
