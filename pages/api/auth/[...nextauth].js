@@ -1,8 +1,7 @@
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
-import type { NextAuthOptions } from "next-auth";
 
-const createUser = async (name = "", email: any) => {
+const createUser = async (name = "", email) => {
   if (!email) return false;
 
   try {
@@ -20,7 +19,7 @@ const createUser = async (name = "", email: any) => {
   return false;
 };
 
-export const authOptions: NextAuthOptions = {
+export const authOptions = {
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_ID,
