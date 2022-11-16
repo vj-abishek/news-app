@@ -51,10 +51,7 @@ export default function IndexPage({ data, next, nextIndex, activeTopic }: any) {
       if (reachedEnd) {
         setIsSent(true);
         const ni = parseInt(currentIndex) + 16;
-        const url =
-          process.env.NODE_ENV !== "production"
-            ? "http://localhost:3000"
-            : "https://fingertip-news.vercel.app";
+        const url = window.location.origin;
         const response = await fetch(`${url}/api/next`, {
           method: "POST",
           headers: {

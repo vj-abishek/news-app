@@ -1,5 +1,5 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from "next";
+import { ALLOWED_ORIGINS } from "../../lib/origins";
 
 type Data = {
   data: [];
@@ -15,6 +15,14 @@ export default async function handler(
 ) {
   try {
     const { url, nextIndex, activeTopic } = req.body;
+
+    const { origin } = req.headers;
+
+    if (origin && ALLOWED_ORIGINS.indexOf(origin) === -1) {
+      return res.status(403).json({ data: [], error: "Forbidden", next: null });
+    }
+
+    res.setHeader("Access-Control-Allow-Origin", origin || "*");
 
     if (typeof url !== "string")
       return res

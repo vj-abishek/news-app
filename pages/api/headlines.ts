@@ -1,5 +1,6 @@
 import { JSDOM } from "jsdom";
 import { NextApiRequest, NextApiResponse } from "next";
+import { ALLOWED_ORIGINS } from "../../lib/origins";
 
 const order = ["For You"];
 
@@ -43,6 +44,14 @@ export default async function getHeadlines(
   const { query } = req;
   const { lang, topic } = query;
   let base_url = process.env.BASE_URL;
+
+  const { origin } = req.headers;
+
+  if (origin && ALLOWED_ORIGINS.indexOf(origin) === -1) {
+    return res.status(403).json({ data: [], error: "Forbidden", next: null });
+  }
+
+  res.setHeader("Access-Control-Allow-Origin", origin || "*");
 
   if (typeof lang !== "string")
     return res.status(400).json({ error: "Invalid location" });
