@@ -54,15 +54,11 @@ export default async function getHeadlines(
 
   if (topic === "For You") {
     base_url = process.env.BASE_URL?.replace("english", lang) || "";
-
-    response = await fetchNParse(base_url);
-    const news = parseTopic(topic, response);
-    res.status(200).json(news);
   } else {
     base_url = process.env.BASE_URL?.replace("for+you", topic) || "";
-
-    const response = await fetchNParse(base_url);
-    const news = parseTopic(topic, response);
-    res.status(200).json(news);
   }
+
+  response = await fetchNParse(base_url);
+  const news = parseTopic(topic, response);
+  res.status(200).json(news);
 }
