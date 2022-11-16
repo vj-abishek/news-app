@@ -12,6 +12,7 @@ export function middleware(request: NextRequest) {
   ];
 
   const origin = requestHeaders.get("origin");
+  console.log(origin);
   if (origin && ALLOWED_ORIGINS.includes(origin)) {
     requestHeaders.set("Access-Control-Allow-Origin", origin);
   }
