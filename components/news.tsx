@@ -60,20 +60,20 @@ function News({ data }: any) {
           },
         });
         const body = JSON.stringify({
-          email: session.user?.email,
-          content,
+          data: {
+            email: session.user?.email,
+            content,
+          },
+          path: "/bookmark",
         });
 
-        const response = await fetch(
-          `https://www.theprint.me/server/bookmark`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body,
-          }
-        );
+        const response = await fetch("/api/proxy", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body,
+        });
 
         const json = await response.json();
 

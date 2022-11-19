@@ -82,18 +82,15 @@ export async function getServerSideProps({ req, res, query }: any) {
   }
 
   try {
-    const response = await fetch(
-      `https://www.theprint.me/server/getbookmarks`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: session.user?.email,
-        }),
-      }
-    );
+    const response = await fetch(`${process.env.SERVER_URL}getbookmarks`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: session.user?.email,
+      }),
+    });
     const data = await response.json();
 
     if (!data.success)
