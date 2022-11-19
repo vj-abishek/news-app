@@ -3,6 +3,7 @@ import { useRef, useState } from "react";
 import { BookmarkIcon, CheckBadgeIcon } from "@heroicons/react/24/solid";
 import { BookmarkIcon as BookmarkOutlineIcon } from "@heroicons/react/24/outline";
 import { format } from "timeago.js";
+import Toast from "@components/toast";
 
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline";
 import Head from "next/head";
@@ -40,10 +41,13 @@ function News({ data }: any) {
   const imageConatiner = useRef<HTMLDivElement>(null);
   const { data: session } = useSession();
   const [bookmarked, setBookmarked] = useState(false);
+  const [showToast, setShowToast] = useState(false);
 
   const handleBookmark = async () => {
     if (session) {
       try {
+        setShowToast(false);
+
         const content = JSON.stringify({
           title: data.title,
           sourceProvidedContentUrl: data.sourceProvidedContentUrl,
@@ -60,13 +64,18 @@ function News({ data }: any) {
           content,
         });
 
-        const response = await fetch(`${process.env.REWRITE_SERVER_URL}/bookmark`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body,
-        });
+        console.log(process.env.REWRITE_SERVER_URL);
+
+        const response = await fetch(
+          `${process.env.REWRITE_SERVER_URL}/bookmark`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body,
+          }
+        );
 
         const json = await response.json();
 
@@ -75,12 +84,15 @@ function News({ data }: any) {
         }
       } catch (err) {
         setBookmarked(false);
+        setShowToast(true);
       }
     }
   };
 
   return (
     <>
+      {showToast && <Toast msg="Something went wrong. " />}
+
       <Head>
         <title>News App - content at your finger tips</title>
       </Head>
