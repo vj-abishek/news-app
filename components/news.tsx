@@ -104,7 +104,7 @@ function News({ data }: any) {
           <div className="absolute w-full h-full bg-gradient-to-b from-slate-700 to-gradient-bg"></div>
           <img
             ref={imageRef}
-            loading="lazy"
+            // loading="lazy"
             src={parseImage(data.thumbnailInfos)}
             alt={data.title}
             className="w-full h-full object-cover blur-2xl brightness-50 absolute top-0 left-0 opacity-60"
