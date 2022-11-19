@@ -7,8 +7,6 @@ export default async function handler(
   try {
     const { data, path } = req.body;
 
-    console.log(data);
-
     const response = await fetch(`http://169.51.205.252:31060/${path}`, {
       method: "POST",
       headers: {
@@ -20,5 +18,7 @@ export default async function handler(
     const json = await response.json();
 
     res.status(200).json(json);
-  } catch (err) {}
+  } catch (err) {
+    res.status(500);
+  }
 }
