@@ -30,4 +30,10 @@ describe("Home", () => {
 
     expect(screen.getByText("Logout")).toBeInTheDocument();
   })
+   test("Should have bookmark button", async() => {
+    render(<Header />);
+
+    expect(screen.getByText("Bookmarks")).toBeInTheDocument();
+  })
+  
 });
