@@ -5,7 +5,7 @@ const createUser = async (name = "", email) => {
   if (!email) return false;
 
   try {
-    await fetch(`${process.env.SERVER_URL}/createuser`, {
+    await fetch(`${process.env.REWRITE_SERVER_URL}/createuser`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

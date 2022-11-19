@@ -60,7 +60,7 @@ function News({ data }: any) {
           content,
         });
 
-        const response = await fetch(`${process.env.SERVER_URL}/bookmark`, {
+        const response = await fetch(`${process.env.REWRITE_SERVER_URL}/bookmark`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
