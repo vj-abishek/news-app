@@ -147,7 +147,7 @@ function News({ data }: any) {
               >
                 <ArrowTopRightOnSquareIcon className="w-4 h-4 inline-block ml-2" />
               </a>
-              {router.pathname !== "/bookmarks" && bookmarked ? (
+              {router.pathname === "/bookmarks" || bookmarked ? (
                 <BookmarkIcon className="w-5 h-5 ml-4 inline-block" />
               ) : (
                 <a href={`${session ? "#" : "#login"}`}>
