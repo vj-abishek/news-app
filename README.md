@@ -9,6 +9,8 @@ The privacy focused news app made for ibm cloud
 ![Screenshot from 2022-11-19 12-01-33](https://user-images.githubusercontent.com/98735587/202838106-7ed006ad-ae5e-45ba-847d-41e7d78fe6bb.png)
 
 
+This live version of the app can be found in [theprint.me](https://theprint.me)
+
 
 ### Features
 
@@ -99,4 +101,17 @@ yarn dev
 - To run the app - `python server.py`
 
 
+### Screenshots
 
+<p align="center">
+    <img style="width: 350px; height: 700px" src="https://user-images.githubusercontent.com/90566952/202840754-ee9cdfcd-b9af-4341-a281-d305ea3259bb.png">
+    <img style="width: 350px; height: 700px"  src="https://user-images.githubusercontent.com/90566952/202840764-30d76ca3-9871-41e9-bb3a-17621f8634d0.png">
+    <img style="width: 350px; height: 700px"  src="https://user-images.githubusercontent.com/90566952/202840792-472500f2-5248-494b-9a89-166ecaa00e7b.png">
+    <img style="width: 350px; height: 700px"  src="https://user-images.githubusercontent.com/90566952/202840811-6b96e869-2fb3-45de-9645-8d79346a2471.png">
+</p>
+
+
+
+### Copyright
+
+Licensed under the [GNU General Public License v2.0](LICENSE)
