@@ -117,7 +117,7 @@ function News({ data }: any) {
             <img
               src={parseImage(data.thumbnailInfos)}
               alt={data.title}
-              loading="lazy"
+              // loading="lazy"
               className="w-full aspect-video"
             />
 
