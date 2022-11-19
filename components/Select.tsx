@@ -26,6 +26,13 @@ export default function Select() {
                 <li>
                   <Link
                     href={{
+                      pathname: "/auto",
+                    }}
+                  >
+                    Auto
+                  </Link>
+                  <Link
+                    href={{
                       pathname: "/",
                       query: {
                         lang: "english",
