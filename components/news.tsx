@@ -8,6 +8,7 @@ import Toast from "@components/toast";
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline";
 import Head from "next/head";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
 
 function parseImage(thumb: any) {
   let width = 600;
@@ -42,6 +43,7 @@ function News({ data }: any) {
   const { data: session } = useSession();
   const [bookmarked, setBookmarked] = useState(false);
   const [showToast, setShowToast] = useState(false);
+  const router = useRouter();
 
   const handleBookmark = async () => {
     if (session) {
@@ -145,7 +147,7 @@ function News({ data }: any) {
               >
                 <ArrowTopRightOnSquareIcon className="w-4 h-4 inline-block ml-2" />
               </a>
-              {bookmarked ? (
+              {router.pathname !== "/bookmarks" && bookmarked ? (
                 <BookmarkIcon className="w-5 h-5 ml-4 inline-block" />
               ) : (
                 <a href={`${session ? "#" : "#login"}`}>
