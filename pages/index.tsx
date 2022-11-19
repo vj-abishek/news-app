@@ -133,7 +133,7 @@ export async function getServerSideProps({ req, res, query }: any) {
     const url =
       process.env.NODE_ENV !== "production"
         ? "http://localhost:3000"
-        : "https://fingertip-news.vercel.app";
+        : "https://theprint.me";
 
     const encodedUri = encodeURI(`lang=${lang}&topic=${topic}`);
     const response = await fetch(`${url}/api/headlines?${encodedUri}`);
