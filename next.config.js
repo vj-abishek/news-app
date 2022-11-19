@@ -8,6 +8,10 @@ const nextConfig = {
   async rewrites() {
     return [
       {
+        source: "/server/:path*",
+        destination: `${process.env.REWRITE_SERVER_URL}/:path*`
+      },
+      {
         source: '/rest/:path*',
         has: [
           {
@@ -15,7 +19,7 @@ const nextConfig = {
             value: '(?<api>.*)\\..*',
           },
         ],
-        destination: `http://169.51.205.252:31060/:path*`
+        destination: `${process.env.REWRITE_SERVER_URL}/:path*`
       }
     ]
   }
