@@ -26,5 +26,10 @@ describe("Nav", () => {
 
     expect(screen.getByText("Home")).toBeInTheDocument();
   });
+    test("Should have bookmark button", async() => {
+    render(<Header />);
+
+    expect(screen.getByText("Bookmarks")).toBeInTheDocument();
+  })
 
 });
