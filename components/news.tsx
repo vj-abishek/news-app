@@ -64,10 +64,8 @@ function News({ data }: any) {
           content,
         });
 
-        console.log(process.env.REWRITE_SERVER_URL);
-
         const response = await fetch(
-          `${process.env.REWRITE_SERVER_URL}/bookmark`,
+          `https://www.theprint.me/server/bookmark`,
           {
             method: "POST",
             headers: {

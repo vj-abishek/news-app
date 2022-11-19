@@ -83,7 +83,7 @@ export async function getServerSideProps({ req, res, query }: any) {
 
   try {
     const response = await fetch(
-      `${process.env.REWRITE_SERVER_URL}/getbookmarks`,
+      `https://www.theprint.me/server/getbookmarks`,
       {
         method: "POST",
         headers: {
