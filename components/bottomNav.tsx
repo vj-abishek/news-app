@@ -37,7 +37,11 @@ export default function BottomNav({ swiperRef }: any) {
           className="flex items-center flex-col cursor-pointer pt-4 mb-4 tooltip"
           data-tip="Home"
         >
-          <HomeIcon className="h-5 w-5  text-white" />
+          <HomeIcon
+            className={`h-5 w-5  ${
+              router.pathname === "/" ? "text-white" : "text-gray-500"
+            }`}
+          />
           <p className="text-slate-500 text-xs mt-1">Home</p>
         </div>
         <div
@@ -45,7 +49,11 @@ export default function BottomNav({ swiperRef }: any) {
           className="flex items-center flex-col cursor-pointer pt-4 mb-4 tooltip"
           data-tip="Bookmarks"
         >
-          <BookmarkSquareIcon className="h-5 w-5  text-gray-500" />
+          <BookmarkSquareIcon
+            className={`h-5 w-5 ${
+              router.pathname === "/bookmarks" ? "text-white" : "text-gray-500"
+            }`}
+          />
           <p className="text-slate-400 text-xs mt-1">Bookmarks</p>
         </div>
         <ChooseTopic swiperRef={swiperRef} />
