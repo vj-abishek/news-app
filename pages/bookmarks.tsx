@@ -76,21 +76,24 @@ export async function getServerSideProps({ req, res, query }: any) {
     return {
       redirect: {
         permanent: false,
-        destination: "/#login",
+        destination: "/api/auth/signin",
       },
     };
   }
 
   try {
-    const response = await fetch(`${process.env.REWRITE_SERVER_URL}/getbookmarks`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email: session.user?.email,
-      }),
-    });
+    const response = await fetch(
+      `${process.env.REWRITE_SERVER_URL}/getbookmarks`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: session.user?.email,
+        }),
+      }
+    );
     const data = await response.json();
 
     if (!data.success)
