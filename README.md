@@ -18,7 +18,7 @@ This live version of the app can be found in [theprint.me](https://theprint.me)
 - [x] Sleek UI 
 - [x] Light weight app
 - [x] Bookmark your news and get back to it later
-- [x] Automagic regional news
+- [x] Automatic regional news
 - [x] Select news based on topic
 - [x] Change language any time  
 
