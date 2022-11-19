@@ -80,7 +80,7 @@ The privacy focused news app made for ibm cloud
 ### Frotend setup
 
 - Install node js - [Node js](https://nodejs.org/en/)
-- Add necessary values in the env - [Sample env]()
+- Add necessary values in the env - [Sample env](https://github.com/vj-abishek/news-app/blob/main/.env.sample)
 - To install dependency - `npm install`
 
 
