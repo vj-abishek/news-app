@@ -12,6 +12,7 @@ import Select from "@components/Select";
 import DialogComponent from "@components/Dialog";
 import { unstable_getServerSession } from "next-auth";
 import { authOptions } from "./api/auth/[...nextauth]";
+import Head from "next/head";
 
 export default function IndexPage({ data }: any) {
   const [space, setSpace] = useState(0);
@@ -35,6 +36,12 @@ export default function IndexPage({ data }: any) {
   return data ? (
     <>
       <Header />
+
+      <Head>
+        <title>News App - content at your finger tips</title>
+        <meta name="description" content="Check what's happening around, anytime anywhere. No spammy content. " />
+      </Head>
+
 
       <Select />
       <Swiper

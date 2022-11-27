@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import BottomNav from "@components/bottomNav";
 import Select from "@components/Select";
 import DialogComponent from "@components/Dialog";
+import Head from "next/head";
 
 export default function IndexPage({ data, next, nextIndex, activeTopic }: any) {
   const [space, setSpace] = useState(0);
@@ -91,6 +92,12 @@ export default function IndexPage({ data, next, nextIndex, activeTopic }: any) {
 
   return (
     <>
+
+      <Head>
+        <title>News App - content at your finger tips</title>
+        <meta name="description" content="Check what's happening around, anytime anywhere. No spammy content. " />
+      </Head>
+
       <Header />
 
       <Select />

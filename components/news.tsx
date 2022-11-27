@@ -6,7 +6,6 @@ import { format } from "timeago.js";
 import Toast from "@components/toast";
 
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline";
-import Head from "next/head";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 
@@ -93,9 +92,6 @@ function News({ data }: any) {
     <>
       {showToast && <Toast msg="Something went wrong. " />}
 
-      <Head>
-        <title>News App - content at your finger tips</title>
-      </Head>
       <div className="w-screen mobile-height sm:w-[350px] sm:h-[650px] shadow-xl rounded-2xl overflow-hidden">
         <div
           ref={imageConatiner}
