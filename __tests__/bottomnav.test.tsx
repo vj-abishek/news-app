@@ -26,5 +26,15 @@ describe("Nav", () => {
 
     expect(screen.getByText("Home")).toBeInTheDocument();
   });
+    test("Should have Bookmark route", async() => {
+    render(<BottomNav />);
+
+    expect(screen.getByText("Bookmarks")).toBeInTheDocument();
+  });
+    test("Should have topic route", async() => {
+    render(<BottomNav />);
+
+    expect(screen.getByText("Topic")).toBeInTheDocument();
+  });
 
 });
