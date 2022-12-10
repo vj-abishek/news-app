@@ -13,7 +13,7 @@ export default function View({ posts }: any) {
         <Head>
           <title>Your contributions / {posts.length}</title>
         </Head>
-        <h1 className=" sm:  mt-3 p-2  flex items-center">
+        <h1 className=" sm:mt-3 p-2  flex items-center">
           <Back />
           <span className="text-gray-200 font-bold text-2xl ">
             {" "}
@@ -77,7 +77,7 @@ export default function View({ posts }: any) {
               )}
             </table>
           ) : (
-            <p>No news found!</p>
+            <p className="text-gray-200">No news found!</p>
           )}
         </main>
       </div>

@@ -37,12 +37,12 @@ const Button = (props: any) => {
 
 export default function Admin({ data }: any) {
   return (
-    <div className="container mx-auto text-gray-200">
+    <div className="container mx-auto">
       <Head>
         <title>News app / Admin</title>
       </Head>
 
-      <h1 className="sm:  mt-3 p-2 font-bold text-2xl text-gray-200 flex w-full items-center justify-between">
+      <h1 className="sm:mt-3 p-2 font-bold text-2xl text-gray-200 flex w-full items-center justify-between">
         <div>Approve these news</div>
         <Link className="btn btn-sm btn-info" href={"/local"}>
           Local news

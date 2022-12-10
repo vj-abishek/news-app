@@ -37,7 +37,7 @@ export default function Preview({ data }: any) {
         <Head>
           <title>Preview / {data.title}</title>
         </Head>
-        <h1 className=" sm:  mt-3 p-2 flex items-center">
+        <h1 className=" sm:mt-3 p-2 flex items-center">
           <Back />
           <span className="font-bold text-2xl text-gray-200">Preview</span>
           <DropDown />

@@ -49,7 +49,7 @@ export default function Create() {
 
   return (
     <div className="container mx-auto text-gray-200 p-3">
-      <h1 className="sm:  mt-3 font-bold text-2xl">Create local news</h1>
+      <h1 className="sm:mt-3 font-bold text-2xl">Create local news</h1>
 
       <Head>
         <title>Create local news</title>

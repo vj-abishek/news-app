@@ -51,7 +51,7 @@ export default function Preview({ data }: any) {
         <Head>
           <title>Preview / {data.title}</title>
         </Head>
-        <h1 className="sm:  mt-3 p-2 font-bold text-2xl  flex items-center">
+        <h1 className="sm:mt-3 p-2 font-bold text-2xl  flex items-center">
           <Back />
           <span>Preview</span>
         </h1>
