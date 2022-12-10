@@ -86,7 +86,7 @@ export default function IndexPage({ data }: any) {
 export async function getServerSideProps({ req, res, query }: any) {
   res.setHeader(
     "Cache-Control",
-    "public, s-maxage=20, stale-while-revalidate=59"
+    "public, s-maxage=10, stale-while-revalidate=59"
   );
 
   const session = await unstable_getServerSession(req, res, authOptions);
