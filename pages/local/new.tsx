@@ -16,7 +16,7 @@ export default function Create() {
 
     if (!session) return;
 
-    const form = e.target as HTMLFormElement;
+    const form = e.target as any;
     const title = form[0].value;
     const image = form[1].value;
     const content = form[2].value;

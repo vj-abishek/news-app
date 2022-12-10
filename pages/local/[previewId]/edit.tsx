@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import Back from "@components/Back";
-import { unstable_getServerSession } from "next-auth";
+import { DefaultSession, unstable_getServerSession } from "next-auth";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { authOptions } from "pages/api/auth/[...nextauth]";
