@@ -1,25 +1,11 @@
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
+import { PrismaAdapter } from "@next-auth/prisma-adapter"
+import prisma from "../../../lib/prismadb"
 
-const createUser = async (name = "", email) => {
-  if (!email) return false;
-
-  try {
-    await fetch(`${process.env.REWRITE_SERVER_URL}/createuser`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ name, email }),
-    });
-    return true;
-  } catch (err) {
-    console.log(err);
-  }
-  return false;
-};
 
 export const authOptions = {
+  adapter: PrismaAdapter(prisma),
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_ID,
@@ -27,10 +13,11 @@ export const authOptions = {
     }),
   ],
   callbacks: {
-    async signIn({ user }) {
-      await createUser(user.name, user.email);
-      return true;
-    },
+    async session({ session, token, user }) {
+      session.user.role = user.role;
+      session.user.id = user.id;
+      return session;
+    }
   },
 };
 

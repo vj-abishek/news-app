@@ -1,4 +1,8 @@
-import { BookmarkSquareIcon, HomeIcon } from "@heroicons/react/24/solid";
+import {
+  BookmarkSquareIcon,
+  HomeIcon,
+  UserGroupIcon,
+} from "@heroicons/react/24/solid";
 
 import { useRouter } from "next/router";
 import ChooseTopic from "./chooseTopic";
@@ -27,7 +31,7 @@ export default function BottomNav({ swiperRef }: any) {
       refreshData();
     }
 
-    router.push("/bookmarks");
+    router.push("/local");
   };
   return (
     <div className="fixed sm:left-1/2 sm:right-1/2 sm:transform sm:translate-x-[-10.99rem] sm:w-[350px] z-20 bottom-0 sm:top-[650px] h-20 w-full bg-gradient-to-b from-transparent to-gradient-bg opacity-90">
@@ -47,14 +51,14 @@ export default function BottomNav({ swiperRef }: any) {
         <div
           onClick={handleBookamrkClick}
           className="flex items-center flex-col cursor-pointer pt-4 mb-4 tooltip"
-          data-tip="Bookmarks"
+          data-tip="Local News"
         >
-          <BookmarkSquareIcon
+          <UserGroupIcon
             className={`h-5 w-5 ${
-              router.pathname === "/bookmarks" ? "text-white" : "text-gray-500"
+              router.pathname === "/local" ? "text-white" : "text-gray-500"
             }`}
           />
-          <p className="text-slate-400 text-xs mt-1">Bookmarks</p>
+          <p className="text-slate-400 text-xs mt-1">Local news</p>
         </div>
         <ChooseTopic swiperRef={swiperRef} />
       </div>
