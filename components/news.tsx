@@ -23,7 +23,7 @@ function parseImage(thumb: any) {
     }
 
     const tb = thumb[0] || null;
-
+    encodeURIComponent;
     if (tb && tb.width) {
       width = tb?.width;
       height = tb?.height;
@@ -113,7 +113,7 @@ function News({ data }: any) {
           <div className="absolute w-full h-full bg-gradient-to-b from-slate-700 to-gradient-bg"></div>
           <img
             ref={imageRef}
-            // loading="lazy"
+            loading="lazy"
             src={parseImage(data?.thumbnailInfos)}
             alt={data.title}
             className="w-full h-full object-cover blur-2xl brightness-50 absolute top-0 left-0 opacity-60"
@@ -126,7 +126,7 @@ function News({ data }: any) {
             <img
               src={parseImage(data?.thumbnailInfos)}
               alt={data?.title}
-              // loading="lazy"
+              loading="lazy"
               className="w-full aspect-video"
             />
 
