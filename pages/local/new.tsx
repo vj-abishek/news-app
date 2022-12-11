@@ -1,3 +1,4 @@
+import Back from "@components/Back";
 import { unstable_getServerSession } from "next-auth";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
@@ -49,12 +50,15 @@ export default function Create() {
 
   return (
     <div className="container mx-auto text-gray-200 p-3">
-      <h1 className="sm:mt-3 font-bold text-2xl">Create local news</h1>
+      <h1 className="sm:mt-3 flex items-center font-bold text-2xl">
+        <Back />
+        <span>Create local news</span>
+      </h1>
 
       <Head>
         <title>Create local news</title>
       </Head>
-      <form className="mt-8" onSubmit={handleSubmit}>
+      <form className="mt-3" onSubmit={handleSubmit}>
         <div className="form-control w-full max-w-2xl">
           <label className="label">
             <span className="label-text text-gray-200">

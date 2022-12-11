@@ -2,7 +2,7 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-const AuthHeader = () => {
+const AuthHeader = ({ session }) => {
   const router = useRouter();
 
   return (
@@ -10,16 +10,35 @@ const AuthHeader = () => {
       tabIndex={0}
       className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
     >
-      {router.asPath !== "/" && (
+      {session.user.role === "ADMIN" && (
         <li>
-          <Link href={"/"} className="justify-between" scroll={false}>
-            Home
+          <Link
+            href={"/local/admin"}
+            className="justify-between"
+            scroll={false}
+          >
+            Admin
           </Link>
         </li>
       )}
+      {router.asPath !== "/" && (
+        <>
+          <li>
+            <Link href={"/"} className="justify-between" scroll={false}>
+              Home
+            </Link>
+          </li>
+          <li>
+            <Link href={"/local"} className="justify-between" scroll={false}>
+              Local news
+            </Link>
+          </li>
+        </>
+      )}
+
       <li>
         <Link href={"/local/new"} className="justify-between" scroll={false}>
-          Create local news
+          New contribution
         </Link>
       </li>
       <li>
@@ -88,7 +107,7 @@ export const DropDown = () => {
           </div>
         </label>
 
-        {session ? <AuthHeader /> : <NormalHeader />}
+        {session ? <AuthHeader session={session} /> : <NormalHeader />}
       </div>
     </div>
   );

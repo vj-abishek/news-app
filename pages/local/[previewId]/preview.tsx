@@ -33,16 +33,16 @@ export default function Preview({ data }: any) {
 
   return data?.title ? (
     <div className="w-full h-screen overflow-auto">
-      <div className="container mx-auto ">
+      <div className="container mx-auto">
         <Head>
           <title>Preview / {data.title}</title>
         </Head>
-        <h1 className=" sm:mt-3 p-2 flex items-center">
+        <h1 className="sm:mt-3 p-2 flex items-center">
           <Back />
           <span className="font-bold text-2xl text-gray-200">Preview</span>
           <DropDown />
         </h1>
-        <div className="mt-8 text-gray-200">
+        <div className="mt-3 text-gray-200">
           <div className=" max-w-2xl">
             <img
               className="aspect-video rounded-md"

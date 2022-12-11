@@ -9,11 +9,11 @@ import prisma from "../../lib/prismadb";
 export default function View({ posts }: any) {
   return (
     <div className="w-full h-screen overflow-auto">
-      <div className="container mx-auto p-2">
+      <div className="container mx-auto">
         <Head>
           <title>Your contributions / {posts.length}</title>
         </Head>
-        <h1 className=" sm:mt-3 p-2  flex items-center">
+        <h1 className="sm:mt-3 p-2 flex items-center">
           <Back />
           <span className="text-gray-200 font-bold text-2xl ">
             {" "}
@@ -22,9 +22,9 @@ export default function View({ posts }: any) {
           <DropDown />
         </h1>
 
-        <main className="mt-8 overflow-x-auto">
+        <main className="mt-3 overflow-x-auto">
           {posts.length ? (
-            <table className="table table-compact w-full ">
+            <table className="table table-zebra w-full ">
               <thead>
                 <tr>
                   <th></th>
