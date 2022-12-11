@@ -45,7 +45,7 @@ export default function Admin({ data }: any) {
       <h1 className="sm:mt-3 p-2 font-bold text-2xl text-gray-200 flex w-full items-center justify-between">
         <div>Approve these news</div>
         <Link className="btn btn-sm btn-info" href={"/local"}>
-          Local news
+          Community news
         </Link>
       </h1>
 

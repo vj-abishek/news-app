@@ -30,7 +30,7 @@ const AuthHeader = ({ session }: any) => {
           </li>
           <li>
             <Link href={"/local"} className="justify-between" scroll={false}>
-              Local news
+              Community news
             </Link>
           </li>
         </>

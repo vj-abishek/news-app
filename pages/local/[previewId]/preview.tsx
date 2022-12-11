@@ -2,6 +2,7 @@
 import Back from "@components/Back";
 import { DropDown } from "@components/header";
 import { unstable_getServerSession } from "next-auth";
+import { useSession } from "next-auth/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { authOptions } from "pages/api/auth/[...nextauth]";
@@ -10,6 +11,7 @@ import prisma from "../../../lib/prismadb";
 
 export default function Preview({ data }: any) {
   const router = useRouter();
+  const { data: session } = useSession();
   const [loading, setLoading] = useState(false);
 
   const deleteNews = async () => {
@@ -52,23 +54,29 @@ export default function Preview({ data }: any) {
             <p className="p-2">{data.title}</p>
             <p className="p-2">{data.content}</p>
 
-            <p className="p-2 text-red-500">
-              {data.published ? (
-                <span className="text-green-400">
-                  🎉 your news has been published
-                </span>
-              ) : (
-                <span className="text-red-400">
-                  <span>⚠️</span>
-                  <span> your news is not published</span>
-                </span>
-              )}
-            </p>
-            <p className="p-2" onClick={deleteNews}>
-              <button className={`btn btn-error ${loading ? "loading" : ""}`}>
-                Delete
-              </button>
-            </p>
+            {data.authorId === session?.user.id && (
+              <>
+                <p className="p-2 text-red-500">
+                  {data.published ? (
+                    <span className="text-green-400">
+                      🎉 your news has been published
+                    </span>
+                  ) : (
+                    <span className="text-red-400">
+                      <span>⚠️</span>
+                      <span> your news is not published</span>
+                    </span>
+                  )}
+                </p>
+                <p className="p-2" onClick={deleteNews}>
+                  <button
+                    className={`btn btn-error ${loading ? "loading" : ""}`}
+                  >
+                    Delete
+                  </button>
+                </p>
+              </>
+            )}
           </div>
         </div>
       </div>
@@ -102,7 +110,6 @@ export async function getServerSideProps(context: any) {
     const data = await prisma.post.findFirst({
       where: {
         id: previewId,
-        authorId: session.user.id,
       },
     });
 

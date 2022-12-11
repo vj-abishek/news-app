@@ -52,11 +52,11 @@ export default function Create() {
     <div className="container mx-auto text-gray-200 p-3">
       <h1 className="sm:mt-3 flex items-center font-bold text-2xl">
         <Back />
-        <span>Create local news</span>
+        <span>Create Community news</span>
       </h1>
 
       <Head>
-        <title>Create local news</title>
+        <title>Create Community news</title>
       </Head>
       <form className="mt-3" onSubmit={handleSubmit}>
         <div className="form-control w-full max-w-2xl">

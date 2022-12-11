@@ -51,14 +51,14 @@ export default function BottomNav({ swiperRef }: any) {
         <div
           onClick={handleBookamrkClick}
           className="flex items-center flex-col cursor-pointer pt-4 mb-4 tooltip"
-          data-tip="Local News"
+          data-tip="Community news"
         >
           <UserGroupIcon
             className={`h-5 w-5 ${
               router.pathname === "/local" ? "text-white" : "text-gray-500"
             }`}
           />
-          <p className="text-slate-400 text-xs mt-1">Local news</p>
+          <p className="text-slate-400 text-xs mt-1">Community</p>
         </div>
         <ChooseTopic swiperRef={swiperRef} />
       </div>
