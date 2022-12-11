@@ -18,7 +18,8 @@ function parseImage(thumb: any) {
   let height = 400;
   try {
     if (typeof thumb === "string") {
-      return thumb;
+      const encodedURL = encodeURIComponent(thumb);
+      return `https://wsrv.nl/?url=${encodedURL}&w=320&h=180`;
     }
 
     const tb = thumb[0] || null;
