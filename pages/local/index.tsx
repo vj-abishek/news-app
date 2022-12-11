@@ -89,17 +89,6 @@ export async function getServerSideProps({ req, res, query }: any) {
     "public, s-maxage=10, stale-while-revalidate=59"
   );
 
-  const session = await unstable_getServerSession(req, res, authOptions);
-
-  if (!session) {
-    return {
-      redirect: {
-        permanent: false,
-        destination: "/api/auth/signin",
-      },
-    };
-  }
-
   try {
     const data = await prisma?.post.findMany({
       where: {
@@ -112,6 +101,8 @@ export async function getServerSideProps({ req, res, query }: any) {
         author: true,
       },
     });
+
+    console.log(data);
 
     return {
       props: {
