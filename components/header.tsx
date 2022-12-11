@@ -2,7 +2,7 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-const AuthHeader = ({ session }) => {
+const AuthHeader = ({ session }: any) => {
   const router = useRouter();
 
   return (
