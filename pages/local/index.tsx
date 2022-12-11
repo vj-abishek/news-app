@@ -10,9 +10,8 @@ import { useEffect, useState } from "react";
 import BottomNav from "@components/bottomNav";
 import Select from "@components/Select";
 import DialogComponent from "@components/Dialog";
-import { unstable_getServerSession } from "next-auth";
 import Head from "next/head";
-import { authOptions } from "pages/api/auth/[...nextauth]";
+import prisma from "../../lib/prismadb";
 
 export default function IndexPage({ data }: any) {
   const [space, setSpace] = useState(0);
@@ -101,8 +100,6 @@ export async function getServerSideProps({ req, res, query }: any) {
         author: true,
       },
     });
-
-    console.log(data);
 
     return {
       props: {
