@@ -10,12 +10,17 @@ export default function Create() {
   const { data: session } = useSession();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const [urlError, setUrlError] = useState(false);
+  const [newsLink, setNewsLink] = useState("");
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     setLoading(true);
 
-    if (!session) return;
+    if (!session || !urlError) {
+      setLoading(false);
+      return;
+    }
 
     const form = e.target as any;
     const title = form[0].value;
@@ -48,6 +53,35 @@ export default function Create() {
         setLoading(false);
         console.error(err);
       });
+  };
+
+  const handleUrl = (e: any) => {
+    const link = e.target.value;
+
+    const youtubeRegex =
+      /(http(s)?:\/\/)?(www\.)?(m\.)?youtu(be|\.be)?(\.com)?\/[a-zA-Z0-9]+/;
+
+    const imageRegex = /(.+\.jpg)|(.+\.png)/;
+
+    const isYoutubeLink = youtubeRegex.test(link);
+    const isImageLink = imageRegex.test(link);
+
+    if (isYoutubeLink) {
+      const pattern =
+        /^(?:https?:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/;
+      const match = pattern.exec(link);
+      const video_id = match?.length && match[1];
+      setNewsLink(`https://www.youtube.com/embed/${video_id}`);
+    }
+    if (isYoutubeLink || isImageLink) {
+      setUrlError(false);
+    } else {
+      setUrlError(true);
+    }
+  };
+
+  const setLink = (e: any) => {
+    setNewsLink(e.target.value);
   };
 
   return (
@@ -83,10 +117,20 @@ export default function Create() {
           </label>
           <input
             type="url"
+            onChange={setLink}
+            value={newsLink}
+            onBlur={handleUrl}
             placeholder="Enter the url"
-            className="input input-bordered w-full max-w-2xl text-black dark:text-gray-200"
+            className={`input input-bordered w-full max-w-2xl text-black dark:text-gray-200" ${
+              urlError ? "input-error" : ""
+            }`}
             required
           />
+          {urlError && (
+            <p className="text-red-400">
+              Enter a valid image url or youtube video url.{" "}
+            </p>
+          )}
         </div>
 
         <div className="form-control w-full max-w-2xl mt-5">

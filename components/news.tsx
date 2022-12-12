@@ -2,6 +2,8 @@
 import { useRef, useState } from "react";
 import {
   CheckBadgeIcon,
+  ChevronUpDownIcon,
+  MagnifyingGlassCircleIcon,
   QuestionMarkCircleIcon,
 } from "@heroicons/react/24/solid";
 import { format } from "timeago.js";
@@ -9,6 +11,7 @@ import Toast from "@components/toast";
 
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
+import RenderImage from "./RenderImage";
 
 function parseImage(thumb: any) {
   let width = 600;
@@ -100,70 +103,82 @@ function News({ data, isLocal }: any) {
       {showToast && <Toast msg="Something went wrong. " />}
 
       <div className="w-screen mobile-height sm:w-[350px] sm:h-[650px] shadow-xl rounded-2xl overflow-hidden">
-        <Link
-          href={
-            isLocal
-              ? `/local/${data.id}/preview`
-              : data.sourceProvidedContentUrl
-          }
+        <div
+          ref={imageConatiner}
+          className="w-full h-full flex justify-center items-center relative"
         >
-          <div
-            ref={imageConatiner}
-            className="w-full h-full flex justify-center items-center relative"
-          >
-            <div className="absolute w-full h-full bg-gradient-to-b from-slate-700 to-gradient-bg"></div>
-            <img
-              ref={imageRef}
-              loading="lazy"
+          <div className="absolute w-full h-full bg-gradient-to-b from-slate-700 to-gradient-bg"></div>
+          <img
+            ref={imageRef}
+            loading="lazy"
+            src={parseImage(data?.thumbnailInfos)}
+            alt={data.title}
+            className="w-full h-full object-cover blur-2xl brightness-50 absolute top-0 left-0 opacity-60"
+          />
+          <div className="relative text-slate-300 z-10">
+            <h1 className="text-xl p-3 text-slate-100 ">
+              <span className="line-clamp-3">{data?.title}</span>
+            </h1>
+            <RenderImage
               src={parseImage(data?.thumbnailInfos)}
-              alt={data.title}
-              className="w-full h-full object-cover blur-2xl brightness-50 absolute top-0 left-0 opacity-60"
+              alt={data?.title}
             />
-            <div className="relative text-slate-300 z-10">
-              <h1 className="text-xl p-3 text-slate-100 ">
-                <span className="line-clamp-3">{data?.title}</span>
-              </h1>
 
-              <img
-                src={parseImage(data?.thumbnailInfos)}
-                alt={data?.title}
-                loading="lazy"
-                className="w-full aspect-video"
-              />
-
+            <Link
+              href={
+                isLocal
+                  ? `/local/${data.id}/preview`
+                  : data.sourceProvidedContentUrl
+              }
+            >
               {/* News Content */}
               <p className="p-3">
                 <span className="line-clamp-5 text-base inline pr-1">
                   {data?.content}
                 </span>
               </p>
+            </Link>
 
-              {/* Author */}
-              <div className="text-slate-500 px-3 pb-5 text-xs">
-                <span>{data?.source?.displayName + " "}</span>
-                {data?.source?.badgeType === "VERIFIED" ? (
-                  <span>
-                    <CheckBadgeIcon className="w-4 h-4 inline-block" />{" "}
-                  </span>
-                ) : (
-                  <span>{" • "}</span>
-                )}
+            {/* Author */}
+            <div className="text-slate-500 px-3 pb-5 text-xs">
+              <span>{data?.source?.displayName + " "}</span>
+              {data?.source?.badgeType === "VERIFIED" ? (
+                <span>
+                  <CheckBadgeIcon className="w-4 h-4 inline-block" />{" "}
+                </span>
+              ) : (
+                <span>{" • "}</span>
+              )}
 
-                <span>{format(new Date(data.timesAgo))}</span>
-                {!data.sourceProvidedContentUrl ? (
-                  <span className="tooltip" data-tip="News from local expert">
-                    <QuestionMarkCircleIcon className="w-4 h-4 inline-block ml-2 " />
-                  </span>
-                ) : (
-                  <a
-                    href={data?.sourceProvidedContentUrl || "#"}
-                    rel="noreferrer"
-                    target="_blank"
-                  >
-                    <ArrowTopRightOnSquareIcon className="w-4 h-4 inline-block ml-2" />
-                  </a>
-                )}
-                {/* {router.pathname === "/bookmarks" || bookmarked ? (
+              <span>{format(new Date(data.timesAgo))}</span>
+              {!data.sourceProvidedContentUrl ? (
+                <span className="tooltip" data-tip="News from local expert">
+                  <QuestionMarkCircleIcon className="w-4 h-4 inline-block ml-2 " />
+                </span>
+              ) : (
+                <a
+                  href={data?.sourceProvidedContentUrl || "#"}
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  <ArrowTopRightOnSquareIcon className="w-4 h-4 inline-block ml-2" />
+                </a>
+              )}
+
+              {!isLocal && (
+                <Link
+                  href={`/local/?topic=${
+                    window.location.search === ""
+                      ? "For+You"
+                      : new URLSearchParams(window.location.search).get("topic")
+                  }`}
+                  className="tooltip"
+                  data-tip="Look from local experts"
+                >
+                  <MagnifyingGlassCircleIcon className="w-5 h-5 ml-4 inline-block" />
+                </Link>
+              )}
+              {/* {router.pathname === "/bookmarks" || bookmarked ? (
               <BookmarkIcon className="w-5 h-5 ml-4 inline-block" />
             ) : (
               <a href={`${session ? "#" : "#login"}`}>
@@ -173,10 +188,9 @@ function News({ data, isLocal }: any) {
                 />
               </a>
             )} */}
-              </div>
             </div>
           </div>
-        </Link>
+        </div>
       </div>
     </>
   );

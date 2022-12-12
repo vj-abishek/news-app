@@ -88,10 +88,13 @@ export async function getServerSideProps({ req, res, query }: any) {
     "public, s-maxage=10, stale-while-revalidate=59"
   );
 
+  const topic = query.topic || "FOR_YOU";
+
   try {
     const data = await prisma?.post.findMany({
       where: {
         published: true,
+        category: topic.replace(" ", "_").toUpperCase(),
       },
       orderBy: {
         createdAt: "desc",
