@@ -52,7 +52,7 @@ export default function IndexPage({ data }: any) {
       <Header />
 
       <Head>
-        <title>News App - content at your finger tips</title>
+        <title>News App / Community news</title>
         <meta
           name="description"
           content="Check what's happening around, anytime anywhere. No spammy content. "
