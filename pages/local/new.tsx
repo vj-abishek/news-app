@@ -21,12 +21,14 @@ export default function Create() {
     const title = form[0].value;
     const image = form[1].value;
     const content = form[2].value;
+    const category = form[3].value;
 
     const obj = {
       title,
       image,
       content,
       authorId: session?.user?.id,
+      category,
     };
 
     fetch("/api/local/edit", {
@@ -98,6 +100,23 @@ export default function Create() {
             placeholder="Type here..."
             required
           ></textarea>
+        </div>
+
+        <div className="form-control w-full max-w-2xl mt-5 text-gray-600  dark:text-gray-200">
+          <label className="label">
+            <span className="label-text text-gray-200">
+              Select news category
+            </span>
+          </label>
+          <select className="select select-bordered w-full max-w-xs" required>
+            <option>FOR_YOU</option>
+            <option>BUSINESS</option>
+            <option>ENTERTAINMENT</option>
+            <option>TECHNOLOGY</option>
+            <option>POLITICS</option>
+            <option>MOVIES</option>
+            <option>INDIA</option>
+          </select>
         </div>
 
         <button

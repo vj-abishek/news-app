@@ -70,6 +70,7 @@ model Post {
   content   String   @db.Text
   image     String?  @db.Text
   author    User     @relation(fields: [authorId], references: [id])
+  category  Category @default(FOR_YOU)
   authorId  String
 
   @@index([authorId])
@@ -78,4 +79,14 @@ model Post {
 enum Role {
   USER
   ADMIN
+}
+
+enum Category {
+  FOR_YOU
+  BUSINESS
+  ENTERTAINMENT
+  TECHNOLOGY
+  POLITICS
+  MOVIES
+  INDIA
 }

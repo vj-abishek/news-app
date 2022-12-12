@@ -1,17 +1,13 @@
 /* eslint-disable @next/next/no-img-element */
 import { useRef, useState } from "react";
 import {
-  BookmarkIcon,
   CheckBadgeIcon,
   QuestionMarkCircleIcon,
 } from "@heroicons/react/24/solid";
-import { BookmarkIcon as BookmarkOutlineIcon } from "@heroicons/react/24/outline";
 import { format } from "timeago.js";
 import Toast from "@components/toast";
 
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline";
-import { useSession } from "next-auth/react";
-import { useRouter } from "next/router";
 import Link from "next/link";
 
 function parseImage(thumb: any) {
@@ -53,10 +49,7 @@ function cloneImage(
 function News({ data, isLocal }: any) {
   const imageRef = useRef<HTMLImageElement | null>(null);
   const imageConatiner = useRef<HTMLDivElement>(null);
-  const { data: session } = useSession();
-  const [bookmarked, setBookmarked] = useState(false);
   const [showToast, setShowToast] = useState(false);
-  const router = useRouter();
 
   // const handleBookmark = async () => {
   //   if (session) {
@@ -106,12 +99,14 @@ function News({ data, isLocal }: any) {
     <>
       {showToast && <Toast msg="Something went wrong. " />}
 
-      <Link
-        href={
-          isLocal ? `/local/${data.id}/preview` : data.sourceProvidedContentUrl
-        }
-      >
-        <div className="w-screen mobile-height sm:w-[350px] sm:h-[650px] shadow-xl rounded-2xl overflow-hidden">
+      <div className="w-screen mobile-height sm:w-[350px] sm:h-[650px] shadow-xl rounded-2xl overflow-hidden">
+        <Link
+          href={
+            isLocal
+              ? `/local/${data.id}/preview`
+              : data.sourceProvidedContentUrl
+          }
+        >
           <div
             ref={imageConatiner}
             className="w-full h-full flex justify-center items-center relative"
@@ -181,8 +176,8 @@ function News({ data, isLocal }: any) {
               </div>
             </div>
           </div>
-        </div>
-      </Link>
+        </Link>
+      </div>
     </>
   );
 }

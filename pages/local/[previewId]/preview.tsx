@@ -95,17 +95,6 @@ export async function getServerSideProps(context: any) {
     "public, s-maxage=10, stale-while-revalidate=59"
   );
 
-  const session = await unstable_getServerSession(req, res, authOptions);
-
-  if (!session) {
-    return {
-      redirect: {
-        permanent: false,
-        destination: "/api/auth/signin",
-      },
-    };
-  }
-
   try {
     const data = await prisma.post.findFirst({
       where: {
