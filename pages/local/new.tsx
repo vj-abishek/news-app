@@ -17,7 +17,8 @@ export default function Create() {
     e.preventDefault();
     setLoading(true);
 
-    if (!session || !urlError) {
+    if (!session || urlError) {
+      console.log("het st", session, urlError);
       setLoading(false);
       return;
     }

@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import Back from "@components/Back";
 import { DropDown } from "@components/header";
+import RenderImage from "@components/RenderImage";
 import { unstable_getServerSession } from "next-auth";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
@@ -46,10 +47,11 @@ export default function Preview({ data }: any) {
         </h1>
         <div className="mt-3 text-gray-200">
           <div className=" max-w-2xl">
-            <img
-              className="aspect-video rounded-md"
+            <RenderImage
               src={data.image}
-              alt={data.title}
+              alt={data.tite}
+              activeIndex={0}
+              index={0}
             />
             <p className="p-2">{data.title}</p>
             <p className="p-2">{data.content}</p>

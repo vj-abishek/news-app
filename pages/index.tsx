@@ -20,6 +20,7 @@ export default function IndexPage({ data, next, nextIndex, activeTopic }: any) {
   const [swiperRef, setSwiperRef] = useState();
   const [currentIndex, setCurrentIndex] = useState<any>();
   const [currentTopic, setCurrentTopic] = useState();
+  const [activeIndex, setActiveIndex] = useState(0);
 
   useEffect(() => {
     if (!isMobile && typeof window !== "undefined") {
@@ -48,6 +49,7 @@ export default function IndexPage({ data, next, nextIndex, activeTopic }: any) {
       return;
     }
     const reachedEnd = e.realIndex > e.slides.length - 5;
+    setActiveIndex(e.activeIndex);
     try {
       if (reachedEnd) {
         setIsSent(true);
@@ -92,10 +94,12 @@ export default function IndexPage({ data, next, nextIndex, activeTopic }: any) {
 
   return (
     <>
-
       <Head>
         <title>News App - content at your finger tips</title>
-        <meta name="description" content="Check what's happening around, anytime anywhere. No spammy content. " />
+        <meta
+          name="description"
+          content="Check what's happening around, anytime anywhere. No spammy content. "
+        />
       </Head>
 
       <Header />
@@ -114,7 +118,7 @@ export default function IndexPage({ data, next, nextIndex, activeTopic }: any) {
           currentData.map((item: any, i: number) => {
             return (
               <SwiperSlide key={`${Date.now()}_${item.id}_${i}`}>
-                <News data={item} />
+                <News data={item} activeIndex={activeIndex} index={i} />
               </SwiperSlide>
             );
           })}

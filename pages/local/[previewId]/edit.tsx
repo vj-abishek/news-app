@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import Back from "@components/Back";
+import RenderImage from "@components/RenderImage";
 import { DefaultSession, unstable_getServerSession } from "next-auth";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -57,10 +58,11 @@ export default function Preview({ data }: any) {
         </h1>
         <div className="mt-8">
           <div className=" max-w-2xl">
-            <img
-              className="aspect-video rounded-md"
+            <RenderImage
               src={data.image}
-              alt={data.title}
+              alt={data.tite}
+              activeIndex={0}
+              index={0}
             />
             <p className="p-2">{data.title}</p>
             <p className="p-2">{data.content}</p>

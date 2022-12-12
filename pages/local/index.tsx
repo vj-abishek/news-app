@@ -17,6 +17,7 @@ export default function IndexPage({ data }: any) {
   const [space, setSpace] = useState(0);
   const [swiperRef, setSwiperRef] = useState();
   const [currentData, setCurrentData] = useState<any>([]);
+  const [activeIndex, setActiveIndex] = useState(0);
 
   useEffect(() => {
     const parsed = data.map((item: any) => {
@@ -42,6 +43,10 @@ export default function IndexPage({ data }: any) {
     }
   }, []);
 
+  const handleChange = (e: any) => {
+    setActiveIndex(e.activeIndex);
+  };
+
   return data ? (
     <>
       <Header />
@@ -62,12 +67,18 @@ export default function IndexPage({ data }: any) {
         direction={"vertical"}
         mousewheel={true}
         className="mySwiper"
+        onSlideChange={handleChange}
       >
         {currentData?.length &&
           currentData.map((item: any, i: number) => {
             return (
               <SwiperSlide key={item.id}>
-                <News data={item} isLocal={true} />
+                <News
+                  data={item}
+                  isLocal={true}
+                  activeIndex={activeIndex}
+                  index={i}
+                />
               </SwiperSlide>
             );
           })}

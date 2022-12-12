@@ -18,8 +18,15 @@ function parseImage(thumb: any) {
   let height = 400;
   try {
     if (typeof thumb === "string") {
-      const encodedURL = encodeURIComponent(thumb);
-      return `https://wsrv.nl/?url=${encodedURL}&w=320&h=180`;
+      const imageRegex = /(.+\.jpg)|(.+\.png)/;
+      const isImageLink = imageRegex.test(thumb);
+
+      if (isImageLink) {
+        const encodedURL = encodeURIComponent(thumb);
+        return `https://wsrv.nl/?url=${encodedURL}&w=320&h=180`;
+      }
+
+      return thumb;
     }
 
     const tb = thumb[0] || null;
@@ -49,7 +56,7 @@ function cloneImage(
   }
 }
 
-function News({ data, isLocal }: any) {
+function News({ data, isLocal, activeIndex, index }: any) {
   const imageRef = useRef<HTMLImageElement | null>(null);
   const imageConatiner = useRef<HTMLDivElement>(null);
   const [showToast, setShowToast] = useState(false);
@@ -115,13 +122,15 @@ function News({ data, isLocal }: any) {
             alt={data.title}
             className="w-full h-full object-cover blur-2xl brightness-50 absolute top-0 left-0 opacity-60"
           />
-          <div className="relative text-slate-300 z-10">
+          <div className="relative text-slate-300 z-10 w-full">
             <h1 className="text-xl p-3 text-slate-100 ">
               <span className="line-clamp-3">{data?.title}</span>
             </h1>
             <RenderImage
               src={parseImage(data?.thumbnailInfos)}
               alt={data?.title}
+              activeIndex={activeIndex}
+              index={index}
             />
 
             <Link
