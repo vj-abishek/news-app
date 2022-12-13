@@ -35,18 +35,15 @@ export default function RenderImage({ src, alt, activeIndex, index }: any) {
   }, [src, activeIndex, index]);
 
   useEffect(() => {
-    if (video_id && videoRef.current && !isRendered) {
+    if (!isImage && video_id && videoRef.current && !isRendered) {
       const player = new Plyr(videoRef.current, {});
       setPlayerRef(player);
-      player.on("ready", () => {
-        player.play();
-      });
       setIsRendered(true);
     }
-  }, [video_id, videoRef, isRendered]);
+  }, [video_id, videoRef, isRendered, isImage]);
 
   const togglePlayer = () => {
-    if (activeIndex === index && document.hasFocus()) {
+    if (!isImage && activeIndex === index && document.hasFocus()) {
       playerRef?.play();
     } else if (playerRef?.playing) {
       playerRef?.pause();

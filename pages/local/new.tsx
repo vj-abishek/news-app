@@ -113,7 +113,7 @@ export default function Create() {
         <div className="form-control w-full max-w-2xl mt-5">
           <label className="label">
             <span className="label-text text-gray-200">
-              Enter the photo for the news
+              Enter any image or youtube video link.
             </span>
           </label>
           <input
@@ -122,7 +122,7 @@ export default function Create() {
             value={newsLink}
             onBlur={handleUrl}
             placeholder="Enter the url"
-            className={`input input-bordered w-full max-w-2xl text-black dark:text-gray-200" ${
+            className={`input input-bordered w-full max-w-2xl text-black dark:text-gray-200 ${
               urlError ? "input-error" : ""
             }`}
             required

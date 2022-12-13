@@ -18,20 +18,25 @@ export default function Preview({ data }: any) {
   const deleteNews = async () => {
     setLoading(true);
 
-    try {
-      const response = await fetch("/api/local/delete", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ postId: data.id }),
-      });
+    const prompt = window.confirm("Are you sure?");
+    if (prompt === true) {
+      try {
+        const response = await fetch("/api/local/delete", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ postId: data.id }),
+        });
 
-      router.push("/local/view");
-    } catch (err) {
-      setLoading(false);
-      console.log(err);
+        router.push("/local/view");
+      } catch (err) {
+        setLoading(false);
+        console.log(err);
+      }
     }
+
+    setLoading(false);
   };
 
   return data?.title ? (

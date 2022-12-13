@@ -12,11 +12,7 @@ const AuthHeader = ({ session }: any) => {
     >
       {session.user.role === "ADMIN" && (
         <li>
-          <Link
-            href={"/local/admin"}
-            className="justify-between"
-            scroll={false}
-          >
+          <Link href={"/local/admin"} className="justify-between">
             Admin
           </Link>
         </li>
@@ -24,12 +20,12 @@ const AuthHeader = ({ session }: any) => {
       {router.asPath !== "/" && (
         <>
           <li>
-            <Link href={"/"} className="justify-between" scroll={false}>
+            <Link href={"/"} className="justify-between">
               Home
             </Link>
           </li>
           <li>
-            <Link href={"/local"} className="justify-between" scroll={false}>
+            <Link href={"/local"} className="justify-between">
               Community news
             </Link>
           </li>
@@ -37,12 +33,12 @@ const AuthHeader = ({ session }: any) => {
       )}
 
       <li>
-        <Link href={"/local/new"} className="justify-between" scroll={false}>
+        <Link href={"/local/new"} className="justify-between">
           New contribution
         </Link>
       </li>
       <li>
-        <Link href={"/local/view"} className="justify-between" scroll={false}>
+        <Link href={"/local/view"} className="justify-between">
           Your contributions
         </Link>
       </li>
