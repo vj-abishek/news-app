@@ -1,5 +1,6 @@
 import { SessionProvider } from "next-auth/react";
 import type { AppProps } from "next/app";
+import { Analytics } from "@vercel/analytics/react";
 import NextNProgress from "nextjs-progressbar";
 import "../styles/globals.css";
 
@@ -14,6 +15,7 @@ export default function App({ Component, pageProps }: AppProps) {
         showOnShallow={true}
       />
       <Component {...pageProps} />
+      <Analytics />
     </SessionProvider>
   );
 }
