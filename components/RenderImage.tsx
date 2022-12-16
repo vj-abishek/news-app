@@ -3,7 +3,7 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import Plyr from "plyr";
 import "plyr/dist/plyr.css";
 
-export default function RenderImage({ src, alt, activeIndex, index }: any) {
+function RenderImage({ src, alt, activeIndex, index }: any) {
   const [isImage, setIsImage] = useState(false);
   const [video_id, setVideoId] = useState("");
   const [isRendered, setIsRendered] = useState(false);
@@ -65,3 +65,7 @@ export default function RenderImage({ src, alt, activeIndex, index }: any) {
     ></div>
   );
 }
+
+
+const MemoizedRenderImage = React.memo(RenderImage);
+export default MemoizedRenderImage;
