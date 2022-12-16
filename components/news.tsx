@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   CheckBadgeIcon,
   ChevronUpDownIcon,
@@ -30,7 +30,6 @@ function parseImage(thumb: any) {
     }
 
     const tb = thumb[0] || null;
-    encodeURIComponent;
     if (tb && tb.width) {
       width = tb?.width;
       height = tb?.height;
@@ -61,50 +60,6 @@ function News({ data, isLocal, activeIndex, index }: any) {
   const imageConatiner = useRef<HTMLDivElement>(null);
   const [showToast, setShowToast] = useState(false);
 
-  // const handleBookmark = async () => {
-  //   if (session) {
-  //     try {
-  //       setShowToast(false);
-
-  //       const content = JSON.stringify({
-  //         title: data.title,
-  //         sourceProvidedContentUrl: data.sourceProvidedContentUrl,
-  //         thumbnailInfos: data.thumbnailInfos,
-  //         content: data.content,
-  //         timesAgo: data.timesAgo,
-  //         source: {
-  //           badgeType: data.source.badgeType,
-  //           displayName: data.source.displayName,
-  //         },
-  //       });
-  //       const body = JSON.stringify({
-  //         data: {
-  //           email: session.user?.email,
-  //           content,
-  //         },
-  //         path: "/bookmark",
-  //       });
-
-  //       const response = await fetch("/api/proxy", {
-  //         method: "POST",
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //         },
-  //         body,
-  //       });
-
-  //       const json = await response.json();
-
-  //       if (json.success) {
-  //         setBookmarked(true);
-  //       }
-  //     } catch (err) {
-  //       setBookmarked(false);
-  //       setShowToast(true);
-  //     }
-  //   }
-  // };
-
   return (
     <>
       {showToast && <Toast msg="Something went wrong. " />}
@@ -126,6 +81,7 @@ function News({ data, isLocal, activeIndex, index }: any) {
             <h1 className="text-xl p-3 text-slate-100 ">
               <span className="line-clamp-3">{data?.title}</span>
             </h1>
+
             <RenderImage
               src={parseImage(data?.thumbnailInfos)}
               alt={data?.title}
@@ -205,4 +161,5 @@ function News({ data, isLocal, activeIndex, index }: any) {
   );
 }
 
-export default News;
+const MemoizedNews = React.memo(News);
+export default MemoizedNews;

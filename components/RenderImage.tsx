@@ -1,71 +1,91 @@
+/* eslint-disable react/display-name */
 /* eslint-disable @next/next/no-img-element */
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import Plyr from "plyr";
-import "plyr/dist/plyr.css";
+import React, { useEffect, useRef, useState } from "react";
 
-function RenderImage({ src, alt, activeIndex, index }: any) {
+const YTVideoPlayer = React.memo(({ src }: any) => {
+  const iframeRef = useRef<HTMLIFrameElement>(null);
+
+  useEffect(() => {
+    if (iframeRef.current) {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          const entry = entries[0];
+          if (entry.isIntersecting && iframeRef.current) {
+            iframeRef.current.src = src;
+            observer.disconnect();
+          }
+        },
+        { rootMargin: "50%" }
+      );
+      observer.observe(iframeRef?.current);
+    }
+  }, [src]);
+
+  return (
+    <iframe
+      className="w-full aspect-video"
+      frameBorder="0"
+      allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+      allowFullScreen
+      ref={iframeRef}
+    />
+  );
+});
+
+const LazyLoadImage = React.memo(({ src, alt }: any) => {
+  const imageRef = useRef<HTMLImageElement>(null);
+  const [isRendered, setIsRendered] = useState(false);
+
+  useEffect(() => {
+    if (imageRef.current && !isRendered) {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          const entry = entries[0];
+          if (entry.isIntersecting && imageRef.current) {
+            imageRef.current.src = src;
+            setIsRendered(true);
+            observer.disconnect();
+          }
+        },
+        { rootMargin: "50%" }
+      );
+      observer.observe(imageRef.current);
+    }
+  }, [src, isRendered]);
+
+  return <img ref={imageRef} alt={alt} className="w-full aspect-video" />;
+});
+
+function RenderImage({ src, alt }: any) {
   const [isImage, setIsImage] = useState(false);
   const [video_id, setVideoId] = useState("");
-  const [isRendered, setIsRendered] = useState(false);
-  const videoRef = useRef<HTMLDivElement>(null);
-  const [playerRef, setPlayerRef] = useState<any>(null);
 
   useEffect(() => {
-    if (activeIndex === index) {
-      const youtubeRegex =
-        /(http(s)?:\/\/)?(www\.)?(m\.)?youtu(be|\.be)?(\.com)?\/[a-zA-Z0-9]+/;
-
-      if (youtubeRegex.test(src)) {
-        const pattern =
-          /^(?:https?:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/;
-        const match = pattern.exec(src);
-        const videoID = match?.length && match[1];
-        setVideoId(videoID || "");
-
-        // const videos = ["itvS62kWALA", "eqBrHvdGbOY", "zuVV9Y55gvc"];
-
-        // const random = Math.floor(Math.random() * 2);
-        // setVideoId(videos[random]);
-
-        setIsImage(false);
-      } else {
-        setIsImage(true);
+    const imageRegex = /(.+\.jpg)|(.+\.png)|(.+\.webp)/;
+    const isImageLink = imageRegex.test(src);
+    if (isImageLink) {
+      setIsImage(true);
+    } else {
+      const videoRegex =
+        /^(?:https?:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/;
+      const isVideoLink = videoRegex.test(src);
+      if (isVideoLink) {
+        const videoId = src.match(videoRegex)[1];
+        setVideoId(videoId);
       }
     }
-  }, [src, activeIndex, index]);
+  }, []);
 
-  useEffect(() => {
-    if (!isImage && video_id && videoRef.current && !isRendered) {
-      const player = new Plyr(videoRef.current, {});
-      setPlayerRef(player);
-      setIsRendered(true);
-    }
-  }, [video_id, videoRef, isRendered, isImage]);
+  if (isImage) {
+    return <LazyLoadImage src={src} alt={alt} />;
+  }
 
-  const togglePlayer = () => {
-    if (!isImage && activeIndex === index && document.hasFocus()) {
-      playerRef?.play();
-    } else if (playerRef?.playing) {
-      playerRef?.pause();
-    }
-  };
+  if (video_id) {
+    return <YTVideoPlayer src={`https://www.youtube.com/embed/${video_id}`} />;
+  }
 
-  useEffect(() => {
-    togglePlayer();
-  });
-
-  return isImage ? (
-    <img src={src} alt={alt} loading="lazy" className="w-full aspect-video" />
-  ) : (
-    <div
-      ref={videoRef}
-      data-plyr-provider="youtube"
-      data-plyr-embed-id={video_id}
-      className="w-full aspect-video"
-    ></div>
-  );
+  return null;
 }
-
 
 const MemoizedRenderImage = React.memo(RenderImage);
 export default MemoizedRenderImage;
