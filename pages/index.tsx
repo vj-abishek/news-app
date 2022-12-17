@@ -112,7 +112,7 @@ export default function IndexPage({ data, next, nextIndex, activeTopic }: any) {
         direction={"vertical"}
         mousewheel={true}
         className="mySwiper"
-        onSlideChange={handleChange}
+        // onSlideChange={handleChange}
       >
         {currentData?.length &&
           currentData.map((item: any, i: number) => {

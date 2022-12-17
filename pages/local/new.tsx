@@ -18,7 +18,6 @@ export default function Create() {
     setLoading(true);
 
     if (!session || urlError) {
-      console.log("het st", session, urlError);
       setLoading(false);
       return;
     }
