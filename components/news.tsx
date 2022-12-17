@@ -1,8 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import {
   CheckBadgeIcon,
-  ChevronUpDownIcon,
   MagnifyingGlassCircleIcon,
   QuestionMarkCircleIcon,
 } from "@heroicons/react/24/solid";
@@ -12,38 +11,7 @@ import Toast from "@components/toast";
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import RenderImage from "./RenderImage";
-
-function parseImage(thumb: any) {
-  let width = 600;
-  let height = 400;
-  try {
-    if (typeof thumb === "string") {
-      const imageRegex = /(.+\.jpg)|(.+\.png)/;
-      const isImageLink = imageRegex.test(thumb);
-
-      if (isImageLink) {
-        const encodedURL = encodeURIComponent(thumb);
-        return `https://wsrv.nl/?url=${encodedURL}&w=320&h=180`;
-      }
-
-      return thumb;
-    }
-
-    const tb = thumb[0] || null;
-    if (tb && tb.width) {
-      width = tb?.width;
-      height = tb?.height;
-    }
-
-    let url = tb?.url?.replace(
-      "#DH_EMB_IMG_REP#__DHQ_",
-      `${width}x${height}__90`
-    );
-    return url;
-  } catch (err) {
-    console.log(err);
-  }
-}
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
 function cloneImage(
   image: HTMLImageElement | null,
@@ -56,9 +24,40 @@ function cloneImage(
 }
 
 function News({ data, isLocal, activeIndex, index }: any) {
-  const imageRef = useRef<HTMLImageElement | null>(null);
   const imageConatiner = useRef<HTMLDivElement>(null);
   const [showToast, setShowToast] = useState(false);
+
+  const parseImage = useCallback((thumb: string) => {
+    let width = 600;
+    let height = 400;
+    try {
+      if (typeof thumb === "string") {
+        const imageRegex = /(.+\.jpg)|(.+\.png)/;
+        const isImageLink = imageRegex.test(thumb);
+
+        if (isImageLink) {
+          const encodedURL = encodeURIComponent(thumb);
+          return `https://wsrv.nl/?url=${encodedURL}&w=320&h=180`;
+        }
+
+        return thumb;
+      }
+
+      const tb = thumb[0] as any;
+      if (tb && tb.width) {
+        width = tb?.width;
+        height = tb?.height;
+      }
+
+      let url = tb?.url?.replace(
+        "#DH_EMB_IMG_REP#__DHQ_",
+        `${width}x${height}__90`
+      );
+      return url;
+    } catch (err) {
+      console.log(err);
+    }
+  }, []);
 
   return (
     <>
@@ -70,9 +69,7 @@ function News({ data, isLocal, activeIndex, index }: any) {
           className="w-full h-full flex justify-center items-center relative"
         >
           <div className="absolute w-full h-full bg-gradient-to-b from-slate-700 to-gradient-bg"></div>
-          <img
-            ref={imageRef}
-            loading="lazy"
+          <LazyLoadImage
             src={parseImage(data?.thumbnailInfos)}
             alt={data.title}
             className="w-full h-full object-cover blur-2xl brightness-50 absolute top-0 left-0 opacity-60"

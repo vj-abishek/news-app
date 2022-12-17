@@ -1,6 +1,7 @@
 /* eslint-disable react/display-name */
 /* eslint-disable @next/next/no-img-element */
 import React, { useEffect, useRef, useState } from "react";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
 const YTVideoPlayer = React.memo(({ src }: any) => {
   const iframeRef = useRef<HTMLIFrameElement>(null);
@@ -32,30 +33,6 @@ const YTVideoPlayer = React.memo(({ src }: any) => {
   );
 });
 
-const LazyLoadImage = React.memo(({ src, alt }: any) => {
-  const imageRef = useRef<HTMLImageElement>(null);
-  const [isRendered, setIsRendered] = useState(false);
-
-  useEffect(() => {
-    if (imageRef.current && !isRendered) {
-      const observer = new IntersectionObserver(
-        (entries) => {
-          const entry = entries[0];
-          if (entry.isIntersecting && imageRef.current) {
-            imageRef.current.src = src;
-            setIsRendered(true);
-            observer.disconnect();
-          }
-        },
-        { rootMargin: "50%" }
-      );
-      observer.observe(imageRef.current);
-    }
-  }, [src, isRendered]);
-
-  return <img ref={imageRef} alt={alt} className="w-full aspect-video" />;
-});
-
 function RenderImage({ src, alt }: any) {
   const [isImage, setIsImage] = useState(false);
   const [video_id, setVideoId] = useState("");
@@ -77,7 +54,13 @@ function RenderImage({ src, alt }: any) {
   }, []);
 
   if (isImage) {
-    return <LazyLoadImage src={src} alt={alt} />;
+    return (
+      <LazyLoadImage
+        src={src}
+        alt={alt}
+        className="w-full bg-slate-600 aspect-video"
+      />
+    );
   }
 
   if (video_id) {
