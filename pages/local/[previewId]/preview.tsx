@@ -50,7 +50,7 @@ export default function Preview({ data }: any) {
           <span className="font-bold text-2xl text-gray-200">Preview</span>
           <DropDown />
         </h1>
-        <div className="mt-3 text-gray-200">
+        <div className="mt-3 text-gray-200 pb-6">
           <div className=" max-w-2xl">
             <RenderImage
               src={data.image}
