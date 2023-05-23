@@ -62,22 +62,6 @@ function News({ data, isLocal, activeIndex, index }: any) {
   }, []);
 
   const toggleSpeech = () => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const langParam = urlParams.get('lang') || 'en'; // Default to English if no language specified
-
-    const languageMappings = {
-      tamil: 'ta-IN',
-      telugu: 'te-IN',
-      english: 'en-US'
-    };
-
-    const lang = languageMappings[langParam.toLowerCase()] || 'en';
-
-    if (!lang) {
-      console.error('Unsupported language for TTS.');
-      return;
-    }
-
     const ttsText = `${data?.title} 
       ${data?.content}
     `;
@@ -88,7 +72,6 @@ function News({ data, isLocal, activeIndex, index }: any) {
         setTTSSpeaking(false);
       } else {
         let utterance = new SpeechSynthesisUtterance(ttsText);
-        utterance.lang = lang; // Set the language for TTS
         speechSynthesis.speak(utterance);
         setTTSSpeaking(true);
       }
