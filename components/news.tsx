@@ -4,11 +4,12 @@ import {
   CheckBadgeIcon,
   MagnifyingGlassCircleIcon,
   QuestionMarkCircleIcon,
+  SpeakerWaveIcon,
 } from "@heroicons/react/24/solid";
 import { format } from "timeago.js";
 import Toast from "@components/toast";
 
-import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline";
+import { ArrowTopRightOnSquareIcon, SpeakerWaveIcon as SpeakerWaveOutline } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import RenderImage from "./RenderImage";
 import { LazyLoadImage } from "react-lazy-load-image-component";
@@ -26,6 +27,7 @@ function cloneImage(
 function News({ data, isLocal, activeIndex, index }: any) {
   const imageConatiner = useRef<HTMLDivElement>(null);
   const [showToast, setShowToast] = useState(false);
+  const [isTTSSpeaking, setTTSSpeaking] = useState(false);
 
   const parseImage = useCallback((thumb: string) => {
     let width = 600;
@@ -59,6 +61,42 @@ function News({ data, isLocal, activeIndex, index }: any) {
     }
   }, []);
 
+  const toggleSpeech = () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const langParam = urlParams.get('lang') || 'en'; // Default to English if no language specified
+
+    const languageMappings = {
+      tamil: 'ta-IN',
+      telugu: 'te-IN',
+      english: 'en-US'
+    };
+
+    const lang = languageMappings[langParam.toLowerCase()] || 'en';
+
+    if (!lang) {
+      console.error('Unsupported language for TTS.');
+      return;
+    }
+
+    const ttsText = `${data?.title} 
+      ${data?.content}
+    `;
+
+    if ('speechSynthesis' in window) {
+      if (speechSynthesis.speaking) {
+        speechSynthesis.cancel();
+        setTTSSpeaking(false);
+      } else {
+        let utterance = new SpeechSynthesisUtterance(ttsText);
+        utterance.lang = lang; // Set the language for TTS
+        speechSynthesis.speak(utterance);
+        setTTSSpeaking(true);
+      }
+    } else {
+      console.error('Text-to-speech is not supported in this browser.');
+    }
+  };
+  
   return (
     <>
       {showToast && <Toast msg="Something went wrong. " />}
@@ -128,17 +166,28 @@ function News({ data, isLocal, activeIndex, index }: any) {
               )}
 
               {!isLocal && (
-                <Link
-                  href={`/local/?topic=${
-                    window.location.search === ""
-                      ? "For+You"
-                      : new URLSearchParams(window.location.search).get("topic")
-                  }`}
-                  className="tooltip"
-                  data-tip="Look from local experts"
-                >
-                  <MagnifyingGlassCircleIcon className="w-5 h-5 ml-4 inline-block" />
-                </Link>
+                <>
+                  <Link
+                    href={`/local/?topic=${window.location.search === ""
+                        ? "For+You"
+                        : new URLSearchParams(window.location.search).get("topic")
+                      }`}
+                    className="tooltip"
+                    data-tip="Look from local experts"
+                  >
+                    <MagnifyingGlassCircleIcon className="w-5 h-5 ml-4 inline-block" />
+                  </Link>
+                  {window.location.search.includes('english') && (
+                    isTTSSpeaking ? (
+                      <SpeakerWaveIcon onClick={toggleSpeech} className="w-5 h-5 ml-4 inline-block cursor-pointer" />
+
+                    ) : (
+                      <SpeakerWaveOutline onClick={toggleSpeech} className="w-5 h-5 ml-4 inline-block cursor-pointer" />
+                    )
+                  )}
+
+                </>
+
               )}
               {/* {router.pathname === "/bookmarks" || bookmarked ? (
               <BookmarkIcon className="w-5 h-5 ml-4 inline-block" />
