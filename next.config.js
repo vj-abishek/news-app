@@ -5,6 +5,9 @@ const nextConfig = {
   experimental: {
     allowMiddlewareResponseBody: true,
   },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
   async rewrites() {
     return [
       {

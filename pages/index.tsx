@@ -92,6 +92,13 @@ export default function IndexPage({ data, next, nextIndex, activeTopic }: any) {
     }
   };
 
+  const changeSpeech = () => {
+    const event = new CustomEvent("toggleSpeech", {
+      detail: (swiperRef as any)?.activeIndex || 0,
+    });
+    window.dispatchEvent(event);
+  };
+
   return (
     <>
       <Head>
@@ -112,13 +119,17 @@ export default function IndexPage({ data, next, nextIndex, activeTopic }: any) {
         direction={"vertical"}
         mousewheel={true}
         className="mySwiper"
-        // onSlideChange={handleChange}
+        onSlideChange={changeSpeech}
       >
         {currentData?.length &&
           currentData.map((item: any, i: number) => {
             return (
               <SwiperSlide key={`${Date.now()}_${item.id}_${i}`}>
-                <News data={item} activeIndex={activeIndex} index={i} />
+                <News
+                  data={item}
+                  activeIndex={(swiperRef as any).activeIndex}
+                  index={i}
+                />
               </SwiperSlide>
             );
           })}

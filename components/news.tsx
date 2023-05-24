@@ -9,10 +9,17 @@ import {
 import { format } from "timeago.js";
 import Toast from "@components/toast";
 
-import { ArrowTopRightOnSquareIcon, SpeakerWaveIcon as SpeakerWaveOutline } from "@heroicons/react/24/outline";
+import {
+  ArrowTopRightOnSquareIcon,
+  SpeakerWaveIcon as SpeakerWaveOutline,
+} from "@heroicons/react/24/outline";
 import Link from "next/link";
 import RenderImage from "./RenderImage";
 import { LazyLoadImage } from "react-lazy-load-image-component";
+
+interface ToggleSpeechEvent extends Event {
+  detail: number;
+}
 
 function cloneImage(
   image: HTMLImageElement | null,
@@ -27,7 +34,8 @@ function cloneImage(
 function News({ data, isLocal, activeIndex, index }: any) {
   const imageConatiner = useRef<HTMLDivElement>(null);
   const [showToast, setShowToast] = useState(false);
-  const [isTTSSpeaking, setTTSSpeaking] = useState(false);
+  const [isSpeaking, setIsSpeaking] = useState(window.isSpeaking);
+  let utterance: SpeechSynthesisUtterance | null = null;
 
   const parseImage = useCallback((thumb: string) => {
     let width = 600;
@@ -62,24 +70,72 @@ function News({ data, isLocal, activeIndex, index }: any) {
   }, []);
 
   const toggleSpeech = () => {
-    const ttsText = `${data?.title} 
-      ${data?.content}
-    `;
+    const ttsText = `${data?.title}. \n\n${data?.content}`;
 
-    if ('speechSynthesis' in window) {
+    if ("speechSynthesis" in window) {
       if (speechSynthesis.speaking) {
         speechSynthesis.cancel();
-        setTTSSpeaking(false);
+        window.isSpeaking = false;
+        window.dispatchEvent(new Event("isSpeakingChange"));
+        utterance = null;
       } else {
-        let utterance = new SpeechSynthesisUtterance(ttsText);
+        if (!utterance) {
+          utterance = new SpeechSynthesisUtterance(ttsText);
+          utterance.onend = () => {
+            window.isSpeaking = false;
+            window.dispatchEvent(new Event("isSpeakingChange"));
+          };
+        }
         speechSynthesis.speak(utterance);
-        setTTSSpeaking(true);
+        window.isSpeaking = true;
+        window.dispatchEvent(new Event("isSpeakingChange"));
       }
     } else {
-      console.error('Text-to-speech is not supported in this browser.');
+      console.error("Text-to-speech is not supported in this browser.");
     }
   };
-  
+
+  useEffect(() => {
+    const handleToggleSpeech = (event: CustomEvent<number>) => {
+      const activeIndex = event.detail;
+      if (isSpeaking && activeIndex === index) {
+        speechSynthesis.cancel();
+        window.dispatchEvent(new Event("isSpeakingChange"));
+        toggleSpeech();
+      }
+    };
+
+    window.addEventListener(
+      "toggleSpeech",
+      handleToggleSpeech as EventListener
+    );
+
+    return () => {
+      window.removeEventListener(
+        "toggleSpeech",
+        handleToggleSpeech as EventListener
+      );
+    };
+  }, [isSpeaking, index]);
+
+  useEffect(() => {
+    const handleIsSpeakingChange = () => {
+      setIsSpeaking(window.isSpeaking);
+    };
+
+    window.addEventListener(
+      "isSpeakingChange",
+      handleIsSpeakingChange as EventListener
+    );
+
+    return () => {
+      window.removeEventListener(
+        "isSpeakingChange",
+        handleIsSpeakingChange as EventListener
+      );
+    };
+  }, []);
+
   return (
     <>
       {showToast && <Toast msg="Something went wrong. " />}
@@ -151,26 +207,32 @@ function News({ data, isLocal, activeIndex, index }: any) {
               {!isLocal && (
                 <>
                   <Link
-                    href={`/local/?topic=${window.location.search === ""
+                    href={`/local/?topic=${
+                      window.location.search === ""
                         ? "For+You"
-                        : new URLSearchParams(window.location.search).get("topic")
-                      }`}
+                        : new URLSearchParams(window.location.search).get(
+                            "topic"
+                          )
+                    }`}
                     className="tooltip"
                     data-tip="Look from local experts"
                   >
                     <MagnifyingGlassCircleIcon className="w-5 h-5 ml-4 inline-block" />
                   </Link>
-                  {window.location.search.includes('english') && (
-                    isTTSSpeaking ? (
-                      <SpeakerWaveIcon onClick={toggleSpeech} className="w-5 h-5 ml-4 inline-block cursor-pointer" />
-
+                  {(window.location.search.includes("english") ||
+                    window.location.search === "") &&
+                    (isSpeaking ? (
+                      <SpeakerWaveIcon
+                        onClick={toggleSpeech}
+                        className="w-5 h-5 ml-4 inline-block cursor-pointer"
+                      />
                     ) : (
-                      <SpeakerWaveOutline onClick={toggleSpeech} className="w-5 h-5 ml-4 inline-block cursor-pointer" />
-                    )
-                  )}
-
+                      <SpeakerWaveOutline
+                        onClick={toggleSpeech}
+                        className="w-5 h-5 ml-4 inline-block cursor-pointer"
+                      />
+                    ))}
                 </>
-
               )}
               {/* {router.pathname === "/bookmarks" || bookmarked ? (
               <BookmarkIcon className="w-5 h-5 ml-4 inline-block" />
